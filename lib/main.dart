@@ -12,6 +12,8 @@ import 'package:flutter_tes_mobile_kalanara_group/task_2_auth_api/presentation/p
 import 'package:flutter_tes_mobile_kalanara_group/task_3_fetch_data_api/bloc/post_bloc.dart';
 import 'package:flutter_tes_mobile_kalanara_group/task_3_fetch_data_api/domain/repositories/post_repository.dart';
 import 'package:flutter_tes_mobile_kalanara_group/task_3_fetch_data_api/presentation/pages/post_page.dart';
+import 'package:flutter_tes_mobile_kalanara_group/task_4_responsive_ui_navigation/presentation/pages/home_product_page.dart';
+import 'package:flutter_tes_mobile_kalanara_group/task_5_debuging_code_review/pages/home_debugging_review_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
           '/login_auth': (context) => LoginPage(),
           '/home_auth': (context) => HomePage(),
           '/post': (context) => PostPage(),
+          '/home_product': (context) => HomeProductPage(),
+          '/home_debug': (context) => const HomeDebuggingReviewPage(),
         },
       ),
     );

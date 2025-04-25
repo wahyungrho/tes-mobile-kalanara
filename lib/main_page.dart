@@ -59,6 +59,10 @@ class MainPage extends StatelessWidget {
                   Navigator.pushNamed(context, '/login_auth');
                 } else if (data.indexOf(item) == 2) {
                   Navigator.pushNamed(context, '/post');
+                } else if (data.indexOf(item) == 3) {
+                  Navigator.pushNamed(context, '/home_product');
+                } else if (data.indexOf(item) == 4) {
+                  Navigator.pushNamed(context, '/home_debug');
                 } else {
                   // Handle other tasks
                   ScaffoldMessenger.of(context).showSnackBar(
