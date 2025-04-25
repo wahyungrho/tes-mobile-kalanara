@@ -19,6 +19,7 @@ class TextFieldWidget extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
 
   const TextFieldWidget({
     super.key,
@@ -39,6 +40,7 @@ class TextFieldWidget extends StatelessWidget {
     this.inputFormatters,
     this.validator,
     this.focusNode,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -65,6 +67,7 @@ class TextFieldWidget extends StatelessWidget {
           inputFormatters: inputFormatters,
           validator: validator,
           focusNode: focusNode,
+          onFieldSubmitted: onFieldSubmitted,
           decoration: InputDecoration(
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,

@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tes_mobile_kalanara_group/task_1_todo_app/domain/models/todo_model.dart';
 import 'package:flutter_tes_mobile_kalanara_group/task_1_todo_app/logic/todo_bloc/todo_bloc.dart';
 import 'package:flutter_tes_mobile_kalanara_group/task_1_todo_app/presentation/widgets/text_field_widget.dart';
 import 'package:flutter_tes_mobile_kalanara_group/task_1_todo_app/presentation/widgets/todo_tile_widget.dart';
+import 'package:flutter_tes_mobile_kalanara_group/utils.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -125,7 +127,7 @@ class _TodoPageState extends State<TodoPage> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.green,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -154,17 +156,23 @@ class _TodoPageState extends State<TodoPage> {
                     child: BlocListener<TodoBloc, TodoState>(
                       listener: (context, state) {
                         if (state is TodoError) {
-                          showErrorMessage(state.message);
+                          Utils.showToastError(context, state.message);
                         } else if (state is TodoCreated) {
-                          toastSuccessMessage('Todo created successfully');
+                          Utils.showToastSuccess(
+                            context,
+                            'Todo created successfully',
+                          );
                         } else if (state is TodoUpdated) {
-                          toastSuccessMessage('Todo updated successfully');
+                          Utils.showToastSuccess(
+                            context,
+                            'Todo updated successfully',
+                          );
                         }
                       },
                       child: BlocBuilder<TodoBloc, TodoState>(
                         builder: (context, state) {
                           if (state is TodoLoading) {
-                            return const CircularProgressIndicator(
+                            return const CupertinoActivityIndicator(
                               color: Colors.white,
                             );
                           }
@@ -187,26 +195,6 @@ class _TodoPageState extends State<TodoPage> {
     context.read<TodoBloc>().add(TodoGetEvent());
   }
 
-  void toastSuccessMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.green,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
-  void showErrorMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -220,6 +208,7 @@ class _TodoPageState extends State<TodoPage> {
     _titleController.dispose();
     _descriptionController.dispose();
     _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
     super.dispose();
   }
 
@@ -230,7 +219,7 @@ class _TodoPageState extends State<TodoPage> {
       body: BlocBuilder<TodoBloc, TodoState>(
         builder: (context, state) {
           if (state is TodoLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const CupertinoActivityIndicator(color: Colors.white);
           } else if (state is TodoLoaded) {
             if (state.todos.isEmpty) {
               return const Center(child: Text('No todos found'));
@@ -266,14 +255,18 @@ class _TodoPageState extends State<TodoPage> {
                         onDelete: (id) {
                           context.read<TodoBloc>().add(TodoDeleteEvent(id));
                           _getTodos();
-                          toastSuccessMessage('Todo deleted successfully');
+                          Utils.showToastSuccess(
+                            context,
+                            'Todo deleted successfully',
+                          );
                         },
                         onUpdateStatus: (id, isCompleted) {
                           context.read<TodoBloc>().add(
                             TodoUpdateStatusEvent(id, isCompleted),
                           );
                           _getTodos();
-                          toastSuccessMessage(
+                          Utils.showToastSuccess(
+                            context,
                             isCompleted
                                 ? 'Todo marked as completed'
                                 : 'Todo marked as uncompleted',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tes_mobile_kalanara_group/task_1_todo_app/presentation/pages/todo_page.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -55,10 +54,11 @@ class MainPage extends StatelessWidget {
             InkWell(
               onTap: () {
                 if (data.indexOf(item) == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => TodoPage()),
-                  );
+                  Navigator.pushNamed(context, '/todo');
+                } else if (data.indexOf(item) == 1) {
+                  Navigator.pushNamed(context, '/login_auth');
+                } else if (data.indexOf(item) == 2) {
+                  Navigator.pushNamed(context, '/post');
                 } else {
                   // Handle other tasks
                   ScaffoldMessenger.of(context).showSnackBar(
